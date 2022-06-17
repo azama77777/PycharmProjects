@@ -1,13 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% for author in object_list %}
-<p> {{ author.authorUser }}</p>
-{% endfor %}
+{% extends 'flatpages/default.html' %}
 
-</body>
-</html>
+
+
+{% block title %}
+Authors
+{% endblock title %}
+
+{% block content %}
+   <h1>Авторы</h1>
+
+   <hr>
+<p>{% if authors %}</p>
+<p>{% for author in authors %}</p>
+
+<table style="width: 643.781px;">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 107px; height: 18px;">Имя</td>
+
+<td style="width: 173.781px; height: 18px;">Рейтинг</td>
+</tr>
+<tr style="height: 89.6406px;">
+<td style="width: 107px; height: 89.6406px;">{{ author.authorUser }}</td>
+<td style="width: 173.781px; height: 89.6406px;">{{ author.ratingAuthor }}</td>
+    {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>!</h2>
+   {% endif %}
+
+
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+
+   {{ page_obj.number }}
+
+
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

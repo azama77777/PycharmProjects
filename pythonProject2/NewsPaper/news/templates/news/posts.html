@@ -1,0 +1,57 @@
+{% extends 'flatpages/default.html' %} {% block title %} Posts {% endblock title %} {% block content %}
+{% load custom_filters%}
+{% load custom_tags %}
+
+
+<h3>{% current_time '%b %d %Y' %}</h3>
+<h3> {{ next_post|default_if_none:"  Чуть позже сообщим о распродаже!  " }} </h3>
+
+   <hr>
+
+<h1>Все посты</h1>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+<p>&nbsp;</p>
+<hr />
+<p>{% if posts %}</p>
+<p>{% for post in posts %}</p>
+
+<table style="width: 635px; height: 105px;">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 130px; height: 18px;">Название</td>
+<td style="width: 479.469px; height: 18px; text-align: center;">{{ post.title }}</td>
+</tr>
+<tr style="height: 28.3906px;">
+<td style="width: 130px; height: 28.3906px;">Рейтинг</td>
+<td style="width: 479.469px; height: 28.3906px; text-align: center;">{{ post.rating }}</td>
+</tr>
+<tr style="height: 70px;">
+<td style="width: 130px; height: 70px;">Текст</td>
+<td style="width: 479.469px; height: 70px; text-align: left;">{{ post.text }}</td>
+    <p>{% endfor %}</p>
+</tr>
+</tbody>
+</table>
+<p>{% else %}</p>
+<h2>Постов нет!</h2>
+<p>{% endif %}
+     {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+    {% endblock content %}

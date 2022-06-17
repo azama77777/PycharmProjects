@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum, ManyToManyField
+from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 
 class Author(models.Model):
     objects = None
-    authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
-    ratingAuthor = models.SmallIntegerField(default=0)
+    authorUser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
+    ratingAuthor = models.SmallIntegerField(default=0, verbose_name='Рейтинг')
 
     def update_rating(self):
         postRat = self.post_set.aggregate(postRating=Sum('rating'))
@@ -22,7 +24,10 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, verbose_name='Название')
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -41,6 +46,11 @@ class Post(models.Model):
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+    def __str__(self):
+        return f'{self.name.title()}: {self.description[:10]}'
+
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[str(self.id)])
 
     def like(self):
         self.rating += 1
@@ -52,6 +62,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.text[0:123] + '...'
+
+    def __str__(self):
+        return self.title
 
 
 class PostCategory(models.Model):
