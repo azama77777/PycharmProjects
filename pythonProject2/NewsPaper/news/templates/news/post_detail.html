@@ -1,16 +1,18 @@
 {% extends 'flatpages/default.html' %} {% block title %} Posts {% endblock title %} {% block content %}
-
-<table style="height: 135px; margin-left: auto; margin-right: auto;" width="615">
+<table style="height: 397px; margin-left: auto; margin-right: auto;" width="617">
 <tbody>
+<tr style="height: 40px;">
+<td style="width: 607px; text-align: center; height: 40px;"><strong> {{ post.author }} </strong></td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 607px; height: 64px;"><em> {{ post.title }} </em></td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 607px; height: 173px;">{{ post.text }}</td>
+</tr>
 <tr>
-<td style="width: 605px; text-align: center;"><strong>{{ Post.author }}</strong></td>
-</tr>
-<tr style="text-align: center;">
-<td style="width: 605px;"><em>{{ Post.title }}</em></td>
-</tr>
-<tr style="text-align: center;">
-<td style="width: 605px;">{{ Post.text }}</td>
+<td style="width: 607px; text-align: center;">{{ commentPost }}</td>
 </tr>
 </tbody>
 </table>
-  {% endblock content %}
+<p>{% endblock content %}</p>

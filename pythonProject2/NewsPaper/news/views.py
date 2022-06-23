@@ -43,15 +43,13 @@ class PostDetail(DetailView):
 class PostCreate(CreateView):
     form_class = PostForm
     model = Post
-    template_name = 'post_edit.html'
 
 
 class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
-    template_name = 'post_edit.html'
+
 
 class PostDelete(DeleteView):
     model = Post
-    template_name = 'product_delete.html'
-    success_url = reverse_lazy('product_list')
+    success_url = reverse_lazy('post_list')
