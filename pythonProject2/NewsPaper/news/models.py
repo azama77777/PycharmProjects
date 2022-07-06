@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models import Sum, ManyToManyField
 from django.core.validators import MinValueValidator
 from django.urls import reverse
-from django.core.mail import send_mail
 
 
 class Author(models.Model):
@@ -47,7 +46,6 @@ class Post(models.Model):
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
-
     def __str__(self):
         return f'{self.name.title()}: {self.description[:10]}'
 
@@ -67,14 +65,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-    send_mail(
-        subject=f'{author}',
-        massage=postCategory,
-        from_email='azamatkuskhov@yandex.ru',
-        recipient_list=[]
-
-    )
 
 
 class PostCategory(models.Model):
