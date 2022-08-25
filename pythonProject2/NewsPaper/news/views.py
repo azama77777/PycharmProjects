@@ -7,6 +7,7 @@ from .forms import PostForm
 from .models import *
 from .filters import PostFilter
 from datetime import datetime
+from django.core.cache import cache
 
 
 class AuthorList(ListView):
@@ -38,6 +39,16 @@ class PostList(ListView):
 class PostDetail(DetailView):
     model = Post
     context_object_name = 'post'
+
+    def __str__(self):
+        return f'{self.name} {self.quantity}'
+
+    def get_absolute_url(self):
+        return f'/posts/{self.id}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
 
 
 class PostCreate(CreateView):
